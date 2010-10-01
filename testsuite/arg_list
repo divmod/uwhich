@@ -1,0 +1,16 @@
+--skip-dot --skip-tilde ls
+--skip-dot --skip-tilde /bin/ls
+--skip-dot --skip-tilde --all ls
+--skip-dot --all ls
+--skip-dot --skip-tilde ausearch
+--skip-dot --skip-tilde eecs343_no_such_program
+--skip-dot --skip-tilde eecs343_execable_file
+--skip-dot --skip-tilde eecs343_not_execable_file
+--skip-dot eecs343_execable_in_home_subdir
+--skip-dot --show-tilde eecs343_execable_in_home_subdir
+--skip-dot ~/eecs343_execable_in_home
+--skip-dot --show-tilde ~/eecs343_execable_in_home
+eecs343_execable_in_subdir
+--show-dot eecs343_execable_in_subdir
+subdir2/eecs343_execable_in_subdir2
+--show-dot subdir2/eecs343_execable_in_subdir2

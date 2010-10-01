@@ -1,0 +1,10 @@
+jhb348
+Joy Bian
+EECS 343 Project #1
+microwhich implementation
+
+The uwhich program given as assigned contains an error when it is executed. Upon stepping through its execution using gdb, it was discovered that the segmentation fault occurred when accessing a memory address. Through the documentation and understanding of the function, this behavior of accessing an address was not desired. Instead, it was intended to dereference a pointer to an integer used as an index. In the path_search function, a call is made to find_command_in_path() with the incorrect path_index argument. In order to correct this, path_index was changed to a pointer to the path_index integer. After this change, the program ceased to segmentation fault at that location. Also, the path_list was being populated by a dummy string. The path environment variable was obtained here.
+
+Next, the program checked the file permissions through a call to the file_status() function. This needed to be populated to check for whether the file existed, was executable, etc. The stat() command was used, and the mode flags were checked for various conditions. 
+
+

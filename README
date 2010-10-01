@@ -1,0 +1,70 @@
+Install
+=======
+
+You will need an ANSI C compiler (like gcc) to compile this package.
+
+Just type `make'.
+
+Manual page
+===========
+
+
+NAME
+       which - shows the full path of (shell) commands.
+
+SYNOPSIS
+       which [options] [--] programname [...]
+
+DESCRIPTION
+       Which takes one or more arguments. For each of its arguments it prints
+       to stdout the full path of the executables that would have been exe-
+       cuted when this argument had been entered at the shell prompt. It does
+       this by searching for an executable or script in the directories listed
+       in the environment variable PATH using the same algorithm as bash(1).
+
+OPTIONS
+       --all, -a
+           Print all matching executables in PATH, not just the first.
+
+       --skip-dot
+           Skip directories in PATH that start with a dot.
+
+       --skip-tilde
+           Skip directories in PATH that start with a tilde and executables
+           which reside in the HOME directory.
+
+       --show-dot
+           If a directory in PATH starts with a dot and a matching executable
+           was found for that path, then print "./programname" rather than the
+           full path.
+
+       --show-tilde
+           Output a tilde when a directory matches the HOME directory. This
+           option is ignored when which is invoked as root.
+
+       --version,-v,-V
+           Print version information on standard output then exit success-
+           fully.
+
+       --help
+           Print usage information on standard output then exit successfully.
+
+RETURN VALUE
+       Which returns the number of failed arguments, or -1 when no `program-
+       name' was given.
+
+BUGS
+       The HOME directory is determined by looking for  the  HOME  environment
+       variable,  which  aborts  when this variable doesn't exist.  Which will
+       consider two equivalent directories to be different when  one  of  them
+       contains a path with a symbolic link.
+
+AUTHOR
+       Carlo Wood <carlo@gnu.org>
+
+SEE ALSO
+       bash(1)
+
+
+
+                                                                      WHICH(1)
