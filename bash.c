@@ -280,7 +280,7 @@ file_status (char const* name)
      we can use.  The same with whether or not a file is readable. */
 
 	 if (((finfo.st_mode & FS_EXECABLE) == FS_EXECABLE) && ((finfo.st_mode & FS_READABLE) == FS_READABLE)) return (FS_EXISTS | FS_EXECABLE | FS_READABLE);
-		else return (FS_EXISTS);
+//		else return (FS_EXISTS);
   /* Root only requires execute permission for any of owner, group or
      others to be able to exec a file, and can read any file. */
 
