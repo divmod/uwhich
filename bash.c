@@ -275,24 +275,48 @@ file_status (char const* name)
 		if ((finfo.st_mode & FS_DIRECTORY) == FS_DIRECTORY)	return (r | FS_DIRECTORY); // returns status flag of exist, is_directory
 			// flag checking syntax: (flags & flagbitN) == flagbitN 
 
-/* Find out if the file is actually executable.  By definition, the
+	/* Find out if the file is actually executable.  By definition, the
      only other criteria is that the file has an execute bit set that
      we can use.  The same with whether or not a file is readable. */
 
-	 if (((finfo.st_mode & FS_EXECABLE) == FS_EXECABLE) && ((finfo.st_mode & FS_READABLE) == FS_READABLE)) return (FS_EXISTS | FS_EXECABLE | FS_READABLE);
-//		else return (FS_EXISTS);
+	 if (((finfo.st_mode & FS_EXECABLE) == FS_EXECABLE) && ((finfo.st_mode & FS_READABLE) == FS_READABLE)) 
+		 return (FS_EXISTS | FS_EXECABLE | FS_READABLE);
+
+	/* File Permissions
+	 * 1						2		3		4			5		6		7			8		9		10
+	 * File Type		User P				Group P				Other P
+	 * 							R		W		E			R		W		E			R		W		E
+	 */
+ 
   /* Root only requires execute permission for any of owner, group or
      others to be able to exec a file, and can read any file. */
 
-// uhh...?
+	if (current_user.euid == (uid_t) 0) // if you are root
+	{
+		int permissions;
+		// check the user/group/other permission bitmasks and shift to least significant spot
+		permissions = (((finfo.st_mode & 000700) >> 6 ) | (finfo.st_mode & 000070) >> 3 | (finfo.st_mode & 000007)); 
+		if (permissions & 000001) // check execute bit
+			return (FS_EXISTS | FS_EXECABLE);
+	}
 
   /* If we are the owner of the file, the owner bits apply. */
 
+	if ((current_user.euid == finfo.st_uid) && (((finfo.st_mode & 000700) >> 6) & 000001)) // check ownership, user permissions
+		return (FS_EXISTS | FS_EXECABLE);
+
   /* If we are in the owning group, the group permissions apply. */
 
-  /* Else we check whether `others' have permission to execute the file */
+	if (group_member(finfo.st_gid) && (((finfo.st_mode & 000070) >> 3) & 000001))
+		return (FS_EXISTS | FS_EXECABLE);
+
+	/* Else we check whether `others' have permission to execute the file */
+
+	if ((finfo.st_mode & 000007) & 000001)
+		return (FS_EXISTS | FS_EXECABLE);
 	}
-  return (FS_EXISTS | FS_EXECABLE);
+
+	return (FS_EXISTS);
 }
 
 
