@@ -119,9 +119,7 @@ static char *tilde_expand(const char *path)
 
 	newpath = (char *) malloc (home_len + path_len - 1);
 	strcpy(newpath, homepath);
-	strcpy(newpath + 1, path + 1);
-
-	free(homepath);
+	strcpy(newpath + home_len, path + 1);
 
 //  newpath = (char *) malloc(strlen(path) + 1);
 //  strcpy(newpath, path);
@@ -477,7 +475,10 @@ int path_search(const char *cmd, const char *path_list)
 				 * UNIMPLEMENTED: set in_home if the result is in the user's
 				 * home directory
 				 */ 
-				//int in_home = 0;
+				int in_home;
+				if (*full_path == '~') in_home = 1;
+				else in_home = 0;
+				
 
 				/* 
 				 * UNIMPLEMENTED: 
@@ -485,7 +486,9 @@ int path_search(const char *cmd, const char *path_list)
 				 * Print "./" if full_path starts with cwd and show_dot option
 				 * is set.
 				 */
-
+				
+				if (show_dot) printf("./");
+				
 				/*
 				 * UNIMPLEMENTED:
 				 * 
@@ -493,6 +496,11 @@ int path_search(const char *cmd, const char *path_list)
 				 *
 				 * Depending on show_tilde option, print "~/".
 				 */
+				if (!in_home) {
+					if (show_tilde) {
+						printf("~/");
+					}
+				}
 
 				/*
 				 * UNIMPLEMENTED:
@@ -500,7 +508,13 @@ int path_search(const char *cmd, const char *path_list)
 				 * If we've already printed "~/" or "./", just print the rest
 				 * of the path. Else, print the full path.
 				 */
+
+				if (show_dot || show_tilde) {
+					printf("%s\n", (full_path + 2));
+				}
+				else {
 				printf("%s\n", full_path);
+				}
 				free(result);
 				found_something = 1;
 			}
@@ -543,7 +557,7 @@ int main(int argc, char *argv[])
 {
 	// Get the PATH environment variable
 	const char *path_list = savestring(getenv("PATH"));
-
+//	const char *path_list = savestring("/usr/bin:~/uwhich");
 	int short_option, fail_count = 0;
 	static int long_option;
 	struct option longopts[] = {
@@ -601,14 +615,17 @@ int main(int argc, char *argv[])
 	if (show_dot)
 		get_current_working_directory();
 
-	// UNIMPLEMENTED: 
 	// Get and parse the home directory, if we want to replace it with "~/"
 	if (show_tilde)
 	{
-		//const char *h;
-
+		char *h = savestring(getenv("HOME"));
+		int home_len = strlen(h);
 		// Be sure the home directory has a trailing slash, so it's easy
 		// to concatenate.
+		if (h[home_len - 1] != '/') {
+			h[home_len++] = '/';
+			h[home_len] = 0;
+		}
 	}
 
 	argv += optind;
