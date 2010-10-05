@@ -10,10 +10,10 @@ gzip `whoami`-`date +%Y%m%d%H%M%S`-uwhich.tar
 HANDIN=`pwd`/`whoami`-`date +%Y%m%d%H%M%S`-uwhich.tar.gz;\
 cd testsuite;\
 sh ./run_testcase.sh ${HANDIN};
-Testing /home/jhb348/uwhich/jhb348-20101003162030-uwhich.tar.gz
+Testing /home/jhb348/uwhich/jhb348-20101005164349-uwhich.tar.gz
 
 UNTAR
-/tmp/cs343.tests.ob1560
+/tmp/cs343.tests.KV3356
 Makefile
 bash.h
 bash.c
@@ -41,14 +41,14 @@ Write the full path of COMMAND(s) to standard output.
   --all, -a        Print all matches in PATH, not just the first
 
 THE PATH, BEFORE BASIC TEST CASES:
-/usr/lib/qt-3.3/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:/home/jhb348/bin:/tmp/cs343.tests.qV1562:/sbin:~/eecs343.dir.in.home
+/user/lib/qt-3.3/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:/home/jhb348/bin:/home/jhb348/:/tmp/cs343.tests.io3358:/sbin:~/eecs343.dir.in.home
 
 THE FILES WE'VE CREATED FOR THESE TESTS:
--rwxr--r--  1 jhb348 users 0 Oct  3 16:20 /tmp/cs343.tests.qV1562/eecs343_execable_file
--rw-r--r--  1 jhb348 users 0 Oct  3 16:20 /tmp/cs343.tests.qV1562/eecs343_not_execable_file
--rwxr--r--  1 jhb348 users 0 Oct  3 15:33 /home/jhb348/eecs343_execable_in_home
--rwxr--r--  1 jhb348 users 0 Oct  3 15:33 /home/jhb348/eecs343.dir.in.home/eecs343_execable_in_home_subdir
--rwxr--r--  1 jhb348 users 0 Oct  3 15:33 /home/jhb348/eecs343.dir.in.home/ls
+-rwxr--r--  1 jhb348 users 0 Oct  5 16:43 /tmp/cs343.tests.io3358/eecs343_execable_file
+-rw-r--r--  1 jhb348 users 0 Oct  5 16:43 /tmp/cs343.tests.io3358/eecs343_not_execable_file
+-rwxr--r--  1 jhb348 users 0 Oct  5 15:57 /home/jhb348/eecs343_execable_in_home
+-rwxr--r--  1 jhb348 users 0 Oct  5 15:57 /home/jhb348/eecs343.dir.in.home/eecs343_execable_in_home_subdir
+-rwxr--r--  1 jhb348 users 0 Oct  5 15:57 /home/jhb348/eecs343.dir.in.home/ls
 
 RUN BASIC TEST CASES
 test1: PASS
@@ -58,7 +58,7 @@ test4: FAILED
 ARGUMENTS: --skip-dot --all ls
 -- HOW IT SHOULD BE ------------------------------------------------------------ YOUR PROGRAM --------------------------------------------------------------
 /bin/ls										/bin/ls
-/tmp/cs343.tests.qV1562/ls							/tmp/cs343.tests.qV1562/ls
+/tmp/cs343.tests.io3358/ls							/tmp/cs343.tests.io3358/ls
 /home/jhb348/eecs343.dir.in.home/ls					      <
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 test5: PASS
@@ -68,12 +68,12 @@ test8: PASS
 test9: FAILED
 ARGUMENTS: --skip-dot eecs343_execable_in_home_subdir
 -- HOW IT SHOULD BE ------------------------------------------------------------ YOUR PROGRAM --------------------------------------------------------------
-/home/jhb348/eecs343.dir.in.home/eecs343_execable_in_home_subdir	      |	which: no eecs343_execable_in_home_subdir in (/usr/lib/qt-3.3/bin:/usr/kerber
+/home/jhb348/eecs343.dir.in.home/eecs343_execable_in_home_subdir	      |	which: no eecs343_execable_in_home_subdir in (/user/lib/qt-3.3/bin:/usr/kerbe
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 test10: FAILED
 ARGUMENTS: --skip-dot --show-tilde eecs343_execable_in_home_subdir
 -- HOW IT SHOULD BE ------------------------------------------------------------ YOUR PROGRAM --------------------------------------------------------------
-~/eecs343.dir.in.home/eecs343_execable_in_home_subdir			      |	which: no eecs343_execable_in_home_subdir in (/usr/lib/qt-3.3/bin:/usr/kerber
+~/eecs343.dir.in.home/eecs343_execable_in_home_subdir			      |	which: no eecs343_execable_in_home_subdir in (/user/lib/qt-3.3/bin:/usr/kerbe
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 test11: FAILED
 ARGUMENTS: --skip-dot ~/eecs343_execable_in_home
@@ -90,20 +90,20 @@ ARGUMENTS: --skip-dot --show-tilde ~/eecs343_execable_in_home
 7 basic test cases passed
 
 THE PATH, BEFORE EXTRA CREDIT TEST CASES:
-/usr/lib/qt-3.3/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:/home/jhb348/bin:/tmp/cs343.tests.qV1562:/sbin:~/eecs343.dir.in.home:./subdir
+/user/lib/qt-3.3/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:/home/jhb348/bin:/home/jhb348/:/tmp/cs343.tests.io3358:/sbin:~/eecs343.dir.in.home:./subdir
 
 CURRENT WORKING DIRECTORY:
-/tmp/cs343.tests.cp1561
+/tmp/cs343.tests.xN3357
 
 THE FILES WE'VE CREATED FOR THE EXTRA CREDIT TESTS:
--rwxr--r--  1 jhb348 users 0 Oct  3 16:20 ./subdir/eecs343_execable_in_subdir
--rwxr--r--  1 jhb348 users 0 Oct  3 16:20 ./subdir2/eecs343_execable_in_subdir2
+-rwxr--r--  1 jhb348 users 0 Oct  5 16:43 ./subdir/eecs343_execable_in_subdir
+-rwxr--r--  1 jhb348 users 0 Oct  5 16:43 ./subdir2/eecs343_execable_in_subdir2
 
 RUN EXTRA CREDIT TEST CASES
 test13: FAILED
 ARGUMENTS: eecs343_execable_in_subdir
 -- HOW IT SHOULD BE ------------------------------------------------------------ YOUR PROGRAM --------------------------------------------------------------
-/tmp/cs343.tests.cp1561/subdir/eecs343_execable_in_subdir		      |	Can't get current working directory
+/tmp/cs343.tests.xN3357/subdir/eecs343_execable_in_subdir		      |	Can't get current working directory
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 test14: FAILED
 ARGUMENTS: --show-dot eecs343_execable_in_subdir
@@ -113,7 +113,7 @@ ARGUMENTS: --show-dot eecs343_execable_in_subdir
 test15: FAILED
 ARGUMENTS: subdir2/eecs343_execable_in_subdir2
 -- HOW IT SHOULD BE ------------------------------------------------------------ YOUR PROGRAM --------------------------------------------------------------
-/tmp/cs343.tests.cp1561/subdir2/eecs343_execable_in_subdir2		      |	Can't get current working directory
+/tmp/cs343.tests.xN3357/subdir2/eecs343_execable_in_subdir2		      |	Can't get current working directory
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 test16: FAILED
 ARGUMENTS: --show-dot subdir2/eecs343_execable_in_subdir2

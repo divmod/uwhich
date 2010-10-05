@@ -109,12 +109,24 @@ static void print_fail(const char *name, const char *path_list)
  */
 static char *tilde_expand(const char *path)
 {
-  // DUMMY CODE. This is an unimplemented feature.
+ // This has been implemented, but not tested
 
   char *newpath;
+	char *homepath = savestring(getenv("HOME"));
+	int home_len, path_len;
+	home_len = strlen(homepath);
+	path_len = strlen(path);
 
-  newpath = (char *) malloc(strlen(path) + 1);
-  strcpy(newpath, path);
+	newpath = (char *) malloc (home_len + path_len - 1);
+	strcpy(newpath, homepath);
+	strcpy(newpath + 1, path + 1);
+
+	free(homepath);
+
+//  newpath = (char *) malloc(strlen(path) + 1);
+//  strcpy(newpath, path);
+
+
   return newpath;
 } /* tilde_expand */
 
@@ -252,6 +264,9 @@ static char *find_command_in_path(const char *name, const char *path_list, int *
 				path = t;
 
 				// UNIMPLEMENTED: Skip this element of the PATH if skip_tilde
+				if (skip_tilde) {
+					path = get_next_path_element(path_list,path_index);
+				}
 			}
 
 			/* 
@@ -264,7 +279,7 @@ static char *find_command_in_path(const char *name, const char *path_list, int *
 			full_path = make_full_pathname(path, name, name_len);
 			free(path);
 
-			status = file_status(full_path); // UNIMPLEMENTED
+			status = file_status(full_path); // implemented!
 
 			/*
 			 * If we found an executable file, escape the loop and return the result.

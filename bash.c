@@ -264,15 +264,13 @@ int
 file_status (char const* name)
 {
   struct stat finfo;
-  int r = 0;
 
   /* Determine whether this file exists or not. */
-	if (stat(name,&finfo) == -1) return r; // -1 signifies error meaning dne, should return 0
+	if (stat(name,&finfo) == -1) return 0; // -1 signifies error meaning dne, should return 0
 	else {
-	r = r | FS_EXISTS;	
   /* If the file is a directory, then it is not "executable" in the
      sense of the shell. */
-		if ((finfo.st_mode & FS_DIRECTORY) == FS_DIRECTORY)	return (r | FS_DIRECTORY); // returns status flag of exist, is_directory
+		if ((finfo.st_mode & FS_DIRECTORY) == FS_DIRECTORY)	return (FS_EXISTS | FS_DIRECTORY); // returns status flag of exist, is_directory
 			// flag checking syntax: (flags & flagbitN) == flagbitN 
 
 	/* Find out if the file is actually executable.  By definition, the
