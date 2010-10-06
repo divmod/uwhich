@@ -124,7 +124,7 @@ static char *tilde_expand(const char *path)
 //  newpath = (char *) malloc(strlen(path) + 1);
 //  strcpy(newpath, path);
 
-
+	free(homepath);
   return newpath;
 } /* tilde_expand */
 
@@ -260,7 +260,6 @@ static char *find_command_in_path(const char *name, const char *path_list, int *
 				char *t = tilde_expand(path);
 				free(path);
 				path = t;
-
 				// UNIMPLEMENTED: Skip this element of the PATH if skip_tilde
 				if (skip_tilde) {
 					path = get_next_path_element(path_list,path_index);
@@ -276,7 +275,6 @@ static char *find_command_in_path(const char *name, const char *path_list, int *
 
 			full_path = make_full_pathname(path, name, name_len);
 			free(path);
-
 			status = file_status(full_path); // implemented!
 
 			/*
@@ -510,7 +508,7 @@ int path_search(const char *cmd, const char *path_list)
 				 */
 
 				if (show_dot || show_tilde) {
-					printf("%s\n", (full_path + 2));
+					printf("%s\n", full_path + strlen(getenv("HOME")) + 1);
 				}
 				else {
 				printf("%s\n", full_path);
@@ -557,7 +555,7 @@ int main(int argc, char *argv[])
 {
 	// Get the PATH environment variable
 	const char *path_list = savestring(getenv("PATH"));
-//	const char *path_list = savestring("/usr/bin:~/uwhich");
+//	const char *path_list = savestring("~/uwhich");
 	int short_option, fail_count = 0;
 	static int long_option;
 	struct option longopts[] = {
@@ -626,6 +624,7 @@ int main(int argc, char *argv[])
 			h[home_len++] = '/';
 			h[home_len] = 0;
 		}
+		free(h);
 	}
 
 	argv += optind;
@@ -655,6 +654,5 @@ int main(int argc, char *argv[])
 			++fail_count;
 		}
 	}
-
 	return fail_count;
 }
