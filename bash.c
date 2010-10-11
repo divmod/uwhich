@@ -348,7 +348,7 @@ absolute_program (char const* string)
  *   int end: the next string offset after the end of the substring
  * 
  * returns: char *: pointer to a new copy of the substring of the original
- * 
+ 
  * From bash-3.2 / stringlib.c / line 124
  * Cons a new string from STRING starting at START and ending at END,
  * not including END.

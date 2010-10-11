@@ -109,7 +109,7 @@ static void print_fail(const char *name, const char *path_list)
  */
 static char *tilde_expand(const char *path)
 {
- // This has been implemented, but not tested
+ // IMPLEMENTED
 
   char *newpath;
 	char *homepath = savestring(getenv("HOME"));
@@ -118,9 +118,11 @@ static char *tilde_expand(const char *path)
 	path_len = strlen(path);
 
 	newpath = (char *) malloc (home_len + path_len - 1);
+	// the concatenation of the home environment variable and the rest of the path
 	strcpy(newpath, homepath);
-	strcpy(newpath + home_len, path + 1);
-
+	strcpy(newpath + home_len, path + 1); // '/home/jhb348' + '/everything/else/'
+	
+//	OLD CODE
 //  newpath = (char *) malloc(strlen(path) + 1);
 //  strcpy(newpath, path);
 
@@ -192,37 +194,37 @@ static char *find_command_in_path(const char *name, const char *path_list, int *
       char *p;
       absolute_path_given = 1;
 
-      if (abs_path)
-	free(abs_path);
+      if (abs_path)	free(abs_path);
+			
       if (*name != '.' && *name != '/' && *name != '~')
-	{
-	  /* 
-	   * We don't have an explicit absolute path.
-	   * Assume the path is in reference to the current directory,
-	   * and prepend "./". Save this string in abs_path.
-	   */
-	  abs_path = (char *)malloc(3 + name_len);
-	  strcpy(abs_path, "./");
-	  strcat(abs_path, name);
-	}
+			{
+			  /* 
+	  		 * We don't have an explicit absolute path.
+			   * Assume the path is in reference to the current directory,
+			   * and prepend "./". Save this string in abs_path.
+			   */
+			  abs_path = (char *)malloc(3 + name_len);
+			  strcpy(abs_path, "./");
+			  strcat(abs_path, name);
+			}
       else
-	{
-	  /* 
-	   * Our path starts with ".", "/", or "~".
-	   * Just copy the whole thing to abs_path.
-	   */
-	  abs_path = (char *)malloc(1 + name_len);
-	  strcpy(abs_path, name);
-	}
+			{
+			  /* 
+			   * Our path starts with ".", "/", or "~".
+			   * Just copy the whole thing to abs_path.
+			   */
+			  abs_path = (char *)malloc(1 + name_len);
+			  strcpy(abs_path, name);
+			}
 
       /*
        * Split the abs_path variable as described above.
        */
       path_list = abs_path;
-      p = strrchr(abs_path, '/');
+      p = strrchr(abs_path, '/'); // strrchr does not include the '/' here
       *p++ = 0;
       name = p;
-    }
+		}
 
   /*
    * Search the paths in path_list (starting from index path_index) for
@@ -255,12 +257,12 @@ static char *find_command_in_path(const char *name, const char *path_list, int *
 			 * the user's home directory. Replace it with the absolute path
 			 * to the user's home directory.
 			 */
-			if (*path == '~' && *(path + 1) == '/')
+			if (*path == '~') //&& *(path + 1) == '/')
 			{
 				char *t = tilde_expand(path);
 				free(path);
 				path = t;
-				// UNIMPLEMENTED: Skip this element of the PATH if skip_tilde
+				// IMPLEMENTED: Skip this element of the PATH if skip_tilde
 				if (skip_tilde) {
 					path = get_next_path_element(path_list,path_index);
 				}
@@ -275,7 +277,7 @@ static char *find_command_in_path(const char *name, const char *path_list, int *
 
 			full_path = make_full_pathname(path, name, name_len);
 			free(path);
-			status = file_status(full_path); // implemented!
+			status = file_status(full_path); // IMPLEMENTED
 
 			/*
 			 * If we found an executable file, escape the loop and return the result.
@@ -470,7 +472,7 @@ int path_search(const char *cmd, const char *path_list)
 				const char *full_path = path_clean_up(result);
 
 				/*
-				 * UNIMPLEMENTED: set in_home if the result is in the user's
+				 * IMPLEMENTED: set in_home if the result is in the user's
 				 * home directory
 				 */ 
 				int in_home;
@@ -554,8 +556,8 @@ static uid_t const superuser = 0;
 int main(int argc, char *argv[])
 {
 	// Get the PATH environment variable
-	const char *path_list = savestring(getenv("PATH"));
-//	const char *path_list = savestring("~/uwhich");
+	const char *path_list = getenv("PATH");
+//	const char *path_list = savestring("~/uwhich"); // because the export PATH statement alias for ~ completes automatically, this is a test string
 	int short_option, fail_count = 0;
 	static int long_option;
 	struct option longopts[] = {

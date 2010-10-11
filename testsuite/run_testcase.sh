@@ -25,7 +25,7 @@ function cleanUp()
 {
 	rm -Rf ${SRCDIR} ${TMP} ${OUTPUT} ${DIRINPATH};
 	rm -Rf ~/eecs343.dir.in.home;
-	rm -Rf ~/eecs343_execable_in_home;
+# rm -Rf ~/eecs343_execable_in_home; # commented out for gdb testing of file
 }
 
 echo "Testing ${TARGZ}";

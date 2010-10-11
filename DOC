@@ -3,16 +3,13 @@ Joy Bian
 EECS 343 Project #1
 microwhich implementation
 
-The uwhich program given as assigned contains an error when it is executed. Upon stepping through its execution using gdb, it was 
-discovered that the segmentation fault occurred when accessing a memory address. Through the documentation and understanding of the 
-function, this behavior of accessing an address was not desired. Instead, it was intended to dereference a pointer to an integer 
-used as an index. In the path_search function, a call is made to find_command_in_path() with the incorrect path_index argument. In 
-order to correct this, path_index was changed to a pointer to the path_index integer. After this change, the program ceased to 
-segmentation fault at that location. Also, the path_list was being populated by a dummy string. The path environment variable was 
-obtained here, as a call using the getenv() function.
+The uwhich program given as assigned contains an error when it is executed. Upon stepping through its execution using gdb, it was discovered that the segmentation fault occurred when accessing a memory address. Through the documentation and understanding of the function, this behavior of accessing an address was not desired. Instead, it was intended to dereference a pointer to an integer used as an index. In the path_search function, a call is made to find_command_in_path() with the incorrect path_index argument. In order to correct this, path_index was changed to a pointer to the path_index integer. After this change, the program ceased to segmentation fault at that location. Also, the path_list was being populated by a dummy string. The path environment variable was obtained here, as a call using the getenv() function.
 
-Next, the program checked the file permissions through a call to the file_status() function. This needed to be populated to check 
-for whether the file existed, was executable, etc. The stat() command was used, and the mode flags were checked for various	conditions.  
+Next, the program checked the file permissions through a call to the file_status() function. This needed to be populated to check for whether the file existed, was executable, etc. The stat() command was used, and the mode flags were checked for various	conditions. 
 
-Now, the test cases that are failing have to do with mapping the tilde to the home path. 
+Now, the test cases that are failing have to do with mapping the tilde to the home path. After implementing the relevant tilde functions that were labeled 'UNIMPLEMENTED' in the uwhich.c commentary, the subsequent test cases up to 10 and 11 passed.
+
+To further understand why the final two test cases were failing, I went into the script that runs the test cases and commented out the line in the cleanup function that deletes the eecs343_execable_in_home file. Running the same command on this file as the test case script ('--skip-dot ~/eecs343_execable_in_home' and '--skip-dot --show-tilde ~/eecs343_execable_in_home') through the executable and gdb, the output generated was the desired message and not the failure message that the test case script displays. This was due to bash completing the ~ to the home path environment variable. When the absolute path is encased in double quotes, then the same failure message was thrown.
+
+The last two cases were failing because the if statement check was looking for a '~' followed by a '/'. This was corrected so that the code within the if statement (the tilde_expand function) could be executed. Finally all test cases passed.
 
